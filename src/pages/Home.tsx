@@ -21,7 +21,7 @@ import PizzaBlock from '../components/PizzaBlock';
 import PizzaSkeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
 
-const Home = () => {
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -35,15 +35,15 @@ const Home = () => {
 
   const searchValue = useSelector(selectSearchValue);
 
-  const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+  const pizzas = items.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />);
   const skeletons = [...new Array(6)].map((_, i) => <PizzaSkeleton key={i} />);
 
-  const onChangeCategory = (id) => {
-    dispatch(setCategoryId(id));
+  const onChangeCategory = (idx: number) => {
+    dispatch(setCategoryId(idx));
   };
 
-  const onChangePage = (number) => {
-    dispatch(setCurrentPage(number));
+  const onChangePage = (page: number) => {
+    dispatch(setCurrentPage(page));
   };
 
   const getPizzas = async () => {
@@ -53,6 +53,7 @@ const Home = () => {
     const search = searchValue ? `&search=${searchValue}` : ``;
 
     dispatch(
+      // @ts-ignore
       fetchPizzas({
         order,
         sortBy,
@@ -133,7 +134,7 @@ const Home = () => {
         <div className="content__items">{status === 'loading' ? skeletons : pizzas}</div>
       )}
 
-      <Pagination currentPage={currentPage} onChangePage={(number) => onChangePage(number)} />
+      <Pagination currentPage={currentPage} onChangePage={(page: number) => onChangePage(page)} />
     </div>
   );
 };
